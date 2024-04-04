@@ -3,11 +3,13 @@
 CREATE TABLE page_view (
   id SERIAL PRIMARY KEY,
   page_name TEXT,
-  user_id INT
+  user_id INT,
+  created_at DATETIME
 );
 
-CREATE TABLE sales_call (
+CREATE TABLE page_event (
   id SERIAL PRIMARY KEY,
-  caller_id INT,
+  event_name TEXT,
   user_id INT
+  created_at DATETIME
 );

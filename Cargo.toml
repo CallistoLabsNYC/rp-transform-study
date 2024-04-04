@@ -1,5 +1,5 @@
 [package]
-name = "rp-transform-twitter"
+name = "rp-transform-study"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,9 +7,13 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.81"
-postgres = "0.19.7"
+bytes = "1.6.0"
+chrono = {version = "0.4.37", features = ['serde']}
+futures = "0.3.30"
+postgres = { version = "0.19.7", features = ['with-chrono-0_4'] }
 redpanda-transform-sdk = "0.2.0"
-samsa = { path = "../samsa", features = ['redpanda']}
-serde = {version = "1.0.197", features = ['deserialize', 'serialize']}
+samsa = { path = "../samsa", features = ['redpanda'] }
+serde = { version = "1.0.197", features = ["derive"] }
 serde_json = "1.0.115"
-tokio = {version = "1.37.0", features = ['full']}
+tokio = { version = "1.37.0", features = ['full'] }
+tokio-stream = "0.1.15"

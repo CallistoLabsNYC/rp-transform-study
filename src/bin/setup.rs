@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use samsa::prelude::{create_topics, redpanda::adminapi::AdminAPI, BrokerConnection};
+use samsa::prelude::{create_topics, redpanda::adminapi::{AdminAPI, TransformMetadataIn}, BrokerConnection};
 
 #[tokio::main]
 async fn main() -> Result<(), ()> {
@@ -17,22 +17,23 @@ async fn main() -> Result<(), ()> {
         conn,
         1,
         "redpanda transform study",
-        HashMap::from([("queue", 1), ("user-dlq", 1), ("post-dlq", 1)]),
+        HashMap::from([("queue", 1), ("page-view-dlq", 1), ("page-event-dlq", 1)]),
     )
     .await
     .unwrap();
 
-    let transform_metadata = TransformMetadataIn {
-        name: name.to_string(),
-        input_topic: topic.clone(),
-        output_topics: vec![topic_2],
-        ..Default::default()
-    };
-    let contents = std::fs::read("testdata/redpanda-identity.wasm")
-        .map_err(|err| Error::ArgError(err.to_string()))?;
-    client
-        .deploy_wasm_transform(transform_metadata, contents)
-        .await?;
+    // let transform_metadata = TransformMetadataIn {
+    //     name: "transformer".to_string(),
+    //     input_topic: "queue".to_owned(),
+    //     output_topics: vec!["page-view-dlq".to_owned()],
+    //     ..Default::default()
+    // };
+    // let contents = std::fs::read("testdata/redpanda-identity.wasm")
+    //     .map_err(|err| samsa::prelude::Error::ArgError(err.to_string()))?;
+
+    // client
+    //     .deploy_wasm_transform(transform_metadata, contents)
+    //     .await?;
 
 
     Ok(())
