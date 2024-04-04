@@ -6,4 +6,10 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-samsa = { path = "../samsa" }
+anyhow = "1.0.81"
+postgres = "0.19.7"
+redpanda-transform-sdk = "0.2.0"
+samsa = { path = "../samsa", features = ['redpanda']}
+serde = {version = "1.0.197", features = ['deserialize', 'serialize']}
+serde_json = "1.0.115"
+tokio = {version = "1.37.0", features = ['full']}
