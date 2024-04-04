@@ -1,11 +1,15 @@
-# Redpanda Transforms Study
-Building a Message Queue using Redpanda Transforms
+# Redpanda Rust WASM Transform
 
-## Premise
-Build a high-throughput Analytics System using Redpanda as a Message Queue.
+To get started you first need to have at least stable rust 1.72 installed.
 
-We will make a simple message queue that exists as 1 redpanda topic called `queue`. It has 1 partition and will run 2 transforms.
+You can get started by modifying the <code>src/bin.rs</code> file
+with your logic.
 
-These two transforms each will match incoming messages on a their designated data type. If there is a match, it will insert the data into the correct database table.
+Once you're ready to test out your transform live you need to:
 
-We are simulating a webpage analytics with our two message type: `PageView` and `PageEvent`.
+1. Make sure you have a container running via <code>rpk container start</code>
+1. Run <code>rpk transform build</code>
+1. Create your topics via <code>rpk topic create</code>
+1. Run <code>rpk transform deploy</code>
+1. Then use <code>rpk topic produce</code> and <code>rpk topic consume</code>
+   to see your transformation live!
