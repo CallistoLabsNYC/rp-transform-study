@@ -1,5 +1,5 @@
 use futures::stream::{iter, StreamExt};
-use rp_transform_study::{PageView, PageEvent, now};
+use rp_transform_study::{now, PageEvent, PageView};
 use samsa::prelude::{ProduceMessage, ProducerBuilder};
 
 #[tokio::main]

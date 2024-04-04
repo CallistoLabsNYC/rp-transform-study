@@ -1,6 +1,10 @@
 use std::collections::HashMap;
 
-use samsa::prelude::{create_topics, redpanda::adminapi::{AdminAPI, TransformMetadataIn}, BrokerConnection};
+use samsa::prelude::{
+    create_topics,
+    redpanda::adminapi::{AdminAPI, TransformMetadataIn},
+    BrokerConnection,
+};
 
 #[tokio::main]
 async fn main() -> Result<(), ()> {
@@ -34,7 +38,6 @@ async fn main() -> Result<(), ()> {
     // client
     //     .deploy_wasm_transform(transform_metadata, contents)
     //     .await?;
-
 
     Ok(())
 }

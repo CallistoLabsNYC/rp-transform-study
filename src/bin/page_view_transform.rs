@@ -1,8 +1,8 @@
-use postgres::{Client, NoTls};
-use std::env;
-use redpanda_transform_sdk::*;
 use anyhow::Result;
+use postgres::{Client, NoTls};
+use redpanda_transform_sdk::*;
 use rp_transform_study::PageView;
+use std::env;
 
 fn main() {
     on_record_written(my_transform);
@@ -20,8 +20,7 @@ fn my_transform(event: WriteEvent, writer: &mut RecordWriter) -> Result<()> {
 INSERT INTO page_view ( page_name, user_id, created_at )
 VALUES ( $1, $2, $3 )
         "#,
-        &[&event.page_name,
-        &event.user_id, &event.created_at]
+        &[&event.page_name, &event.user_id, &event.created_at],
     )?;
 
     // writer.write(event.record)?;
