@@ -12,7 +12,7 @@ The goal is to take 3 different Websocket APIs which give different message type
 1. In the Redpanda Console, create 2 topics named `crypto-raw` and `crypto-candles`.
 1. In your terminal, `cd crypto-transform-hub`
 1. Run `rpk transform build && rpk transform deploy` and answer the questions with the correct topic names.
-1. `cd ../setup-transform` and run the following commands in different terminal windows:
+1. `cd ../load-data` and run the following commands in different terminal windows:
 ```
 RUST_LOG=DEBUG cargo run --bin binance
 
