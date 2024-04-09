@@ -6,8 +6,13 @@ We will use Rust's powerful pattern matching, type system, and `serde` to crush 
 
 The goal is to take 3 different Websocket APIs which give different message type. The Websocket consumers will just dump the message as is into a raw topic. The Transform will automatically do the conversion into a common type and send it to a cleaned Candle topic.
 
-![mermaid](/mermaid.png)
-
+```mermaid
+flowchart TD
+    A[Binance] -->|Websocket| D
+    B[Coinbase] -->|Websocket| D
+    C[Okx] -->|Websocket| D
+    D[crypto-raw Topic] -->|RedPanda Transform| F[crypto-candles Topic]
+```
 ## Setup
 1. [Install `rpk` on your machine](https://docs.redpanda.com/current/get-started/rpk-install/).
 1. Run `docker-compose up`.
