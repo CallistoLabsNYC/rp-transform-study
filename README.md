@@ -2,9 +2,9 @@
 
 The intention of this study is to demonstrate the utility of Rust + Redpanda Transforms. 
 
-We will use Rust's powerful pattern matching, type system, and `serde` to crush through integrating with multiple APIs. For this, we use live Crypto prices from 3 different exchanges.
+We will use Rust's powerful pattern matching, type system, and `serde` to crush through integrating with multiple APIs. For this, we use live Crypto prices from 3 different exchanges. The goal is to take 3 different Websocket APIs which give different message type, and convert them into a common schema. 
 
-The goal is to take 3 different Websocket APIs which give different message type. The Websocket consumers will just dump the message as is into a raw topic. The Transform will automatically do the conversion into a common type and send it to a cleaned Candle topic.
+Using [Samsa](https://github.com/CallistoLabsNYC/samsa) as our Redpanda client, the websocket consumers will just dump the message as is into a raw topic. The Transform will automatically do the conversion into a common type and send it to a cleaned Candle topic.
 
 ```mermaid
 flowchart TD
