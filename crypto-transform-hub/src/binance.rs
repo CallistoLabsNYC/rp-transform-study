@@ -1,5 +1,5 @@
 use serde::Deserialize;
-use crate::CryptoCandle;
+use crate::{CryptoCandle, now};
 
 /*
 BINANCE payload
@@ -60,7 +60,7 @@ impl TryFrom<BinanceMessage> for CryptoCandle {
             return Err("missing data");
         }
 
-        let timestamp = convert_types(m.result[0][0].clone());
+        let timestamp = now() as f64;
         let open = convert_types(m.result[0][1].clone());
         let high = convert_types(m.result[0][2].clone());
         let low = convert_types(m.result[0][3].clone());
@@ -74,6 +74,7 @@ impl TryFrom<BinanceMessage> for CryptoCandle {
             low,
             close,
             volume,
+            symbol: "BNBBTC".to_owned(),
             source: "Binance".to_owned(),
         })
     }

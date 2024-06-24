@@ -1,5 +1,5 @@
 use serde::Deserialize;
-use crate::CryptoCandle;
+use crate::{CryptoCandle, now};
 
 /*
 COINBASE payload
@@ -36,7 +36,7 @@ pub struct CoinbaseMessage {
 impl TryFrom<CoinbaseMessage> for CryptoCandle {
     type Error = &'static str;
     fn try_from(m: CoinbaseMessage) -> Result<Self, Self::Error> {
-        let timestamp = m.price.parse().unwrap_or_default();
+        let timestamp = now() as f64;
         let open = m.open_24h.parse().unwrap_or_default();
         let high = m.high_24h.parse().unwrap_or_default();
         let low = m.low_24h.parse().unwrap_or_default();
@@ -50,6 +50,7 @@ impl TryFrom<CoinbaseMessage> for CryptoCandle {
             low,
             close,
             volume,
+            symbol: "ETH-USD".to_owned(),
             source: "Coinbase".to_owned(),
         })
     }

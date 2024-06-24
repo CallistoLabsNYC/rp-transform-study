@@ -31,7 +31,7 @@ fn my_transform(event: WriteEvent, writer: &mut RecordWriter) -> Result<(), Box<
     };
 
     let record = Record::new(
-        Some(out.source.clone().into_bytes()),
+        Some(out.symbol.clone().into_bytes()),
         Some(serde_json::to_string(&out)?.into_bytes()),
     );
 

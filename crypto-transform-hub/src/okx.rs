@@ -1,5 +1,5 @@
 use serde::Deserialize;
-use crate::CryptoCandle;
+use crate::{CryptoCandle, now};
 
 /*
 OKX payload
@@ -40,7 +40,7 @@ impl TryFrom<OkxMessage> for CryptoCandle {
             return Err("missing data");
         }
 
-        let timestamp = m.data[0][0].parse().unwrap_or_default();
+        let timestamp = now() as f64;
         let open = m.data[0][1].parse().unwrap_or_default();
         let high = m.data[0][2].parse().unwrap_or_default();
         let low = m.data[0][3].parse().unwrap_or_default();
@@ -54,6 +54,7 @@ impl TryFrom<OkxMessage> for CryptoCandle {
             low,
             close,
             volume,
+            symbol: "BTC-USD-SWAP".to_owned(),
             source: "Okx".to_owned(),
         })
     }
