@@ -1,5 +1,5 @@
 use futures::{stream::StreamExt, SinkExt};
-use samsa::prelude::{ProduceMessage, ProducerBuilder};
+use samsa::prelude::*;
 use tokio_tungstenite::connect_async;
 
 #[tokio::main]
@@ -21,7 +21,12 @@ async fn main() {
 
     tracing::info!("Connecting");
 
-    let bootstrap_addrs = vec!["localhost:9092".to_owned(), "localhost:9093".to_owned()];
+    let bootstrap_addrs = vec![
+        BrokerAddress {
+            host: String::from("localhost"),
+            port: 9092
+        }];
+
     let topic = "crypto-raw";
     let url = "wss://testnet.binance.vision/ws-api/v3";
 
@@ -34,7 +39,7 @@ async fn main() {
         tracing::debug!("* {}", header);
     }
 
-    let producer = ProducerBuilder::new(bootstrap_addrs.clone(), vec![topic.to_string()])
+    let producer = ProducerBuilder::<TcpConnection>::new(bootstrap_addrs.clone(), vec![topic.to_string()])
         .await
         .unwrap()
         .build()

@@ -30,7 +30,7 @@ Here is the connection for Okx; each of the connectors follow this same pattern.
 
 ```rust
 use futures::{stream::StreamExt, SinkExt};
-use samsa::prelude::{ProduceMessage, ProducerBuilder};
+use samsa::prelude::*;
 use tokio_tungstenite::connect_async;
 
 #[tokio::main]
@@ -38,7 +38,10 @@ async fn main() {
     //
     // 1. Set up variables
     //
-    let bootstrap_addrs = vec!["localhost:9092".to_owned(), "localhost:9093".to_owned()];
+    let bootstrap_addrs = vec![BrokerAddress {
+        host: String::from("localhost"),
+        port: 9092,
+    }];
     let topic = "crypto-raw";
     let url = "wss://ws.okx.com:8443/ws/v5/business";
     let instrument_id = "BTC-USD-SWAP";
@@ -74,18 +77,22 @@ async fn main() {
         } else {
             None
         }
-    });
+    }).chunks(3);
 
     //
     // 3. Set up samsa producer
     //
-    ProducerBuilder::new(bootstrap_addrs.clone(), vec![topic.to_string()])
-        .await
-        .unwrap()
-        .build_from_stream(stream)
-        .await;
+    let output_stream =
+        ProducerBuilder::<TcpConnection>::new(bootstrap_addrs.clone(), vec![topic.to_string()])
+            .await
+            .unwrap()
+            .build_from_stream(stream)
+            .await;
 
-    tokio::time::sleep(tokio::time::Duration::MAX).await;
+    tokio::pin!(output_stream);
+    while (output_stream.next().await).is_some() {
+        tracing::info!("Batch sent");
+    }
 }
 ```
 
